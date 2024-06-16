@@ -1,33 +1,31 @@
 if (process.env.NODE_ENV !== 'production') {
-    require("dotenv").config()
+    require("dotenv").config();
 }
 
 const express = require("express");
-const expressLayouts = require("express-ejs-layouts")
-const bodyParser = require("body-parser")
-const methodOverride = require("method-override")
+const expressLayouts = require("express-ejs-layouts");
+const methodOverride = require("method-override");
 
-app = express();
+const app = express();
 
-app.use(express.json())
-app.use(express.static("public"))
-app.set("view engine", "ejs")
-app.set("layout", "layouts/layout")
-app.use(expressLayouts)
-app.use(methodOverride('_method'))
-app.use(bodyParser.urlencoded({limit: "10mb", extended: true}))
-// app.use(express.static(__dirname + 's/public/img')); 
- 
-//test sur la page principal
+app.use(express.json());
+app.use(express.static("public"));
+app.set("view engine", "ejs");
+app.set("layout", "layouts/layout");
+app.use(expressLayouts);
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+
+// Route for the main page
 app.get("/", (req, res) => {
-    res.render("color.js")
-})
+    res.render("index"); // Ensure there is an index.ejs file in views
+});
 
+// Serve the JavaScript file directly
 app.get("/web-client/ch62/color.js", (req, res) => {
-    res.render("color.js")
-})
-
+    res.sendFile(__dirname + "/public/web-client/ch62/color.js"); // Adjust the path as needed
+});
 
 app.listen(3000, () => {
-    console.log("Listening on  port 3000")
-})
+    console.log("Listening on port 3000");
+});
