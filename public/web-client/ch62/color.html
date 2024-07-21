@@ -24,7 +24,7 @@ async function attack() {
                     resolve();
                 }
                 script.onerror = reject;
-                if (i % 100000 == 0) sendRequest("test="+i)
+                if (i % 100000 == 0) sendRequest("test="+i);
             })
             
         } catch (error) {
