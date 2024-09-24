@@ -1,5 +1,5 @@
 <script>
-  var connection = new WebSocket('ws://ctf07.root-me.org/ws');
+  var websocket = new WebSocket('ws://ctf07.root-me.org/ws');
   websocket.onopen = start
 websocket.onmessage = handleReply
 function start(event) {
