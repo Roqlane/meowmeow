@@ -1,7 +1,5 @@
 <script>
-  let headers = new Headers();
-  headers.append("Cookie", "connect.sid=s:WmV38vHd8ZPgp2SoP-yAotvNzpcJ9Rw5.mQdvPtPiwhR92KaMUFYLJMbk3TGJAhY08tMlsPYflek");
-  var websocket = new WebSocket('ws://ctf19.root-me.org/ws');
+  var websocket = new WebSocket('ws://admin:admin@ctf19.root-me.org/ws');
   websocket.onopen = start
 websocket.onmessage = handleReply
 function start(event) {
