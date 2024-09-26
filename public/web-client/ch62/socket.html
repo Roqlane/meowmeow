@@ -8,14 +8,15 @@
     }
 
     //launch connection
-    var websocket = new WebSocket('ws://' + window.origin + '/ws');
+    let origin = window.origin.split('http://')[1];
+    var websocket = new WebSocket('ws://' + origin + '/ws');
     websocket.onopen = start;
       websocket.onmessage = handleReply;
     
     websocket.onerror = function (error) {
         fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error=' + encodeURIComponent(error.message), {mode: 'no-cors'});
         setTimeout(() => {
-            websocket = new WebSocket('ws://' + window.origin + '/ws'); 
+            websocket = new WebSocket('ws://' + origin + '/ws'); 
         }, 5000);
     };
     websocket.onclose = function(message) {
