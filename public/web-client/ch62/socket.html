@@ -8,7 +8,7 @@
     }
 
     //launch connection
-    let origin = window.origin.split('http://')[1];
+    let origin = document.referrer.split('http://')[1];
     var websocket = new WebSocket('ws://' + origin + '/ws');
     websocket.onopen = start;
       websocket.onmessage = handleReply;
