@@ -12,7 +12,6 @@
       websocket.onmessage = handleReply;
       websocket.onerror = function (error) {
           fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error='+error, {mode: 'no-cors'});
-          location.reload()
         };
         websocket.onclose = function(message) {
             fetch('https://eocvkn4m3kpce3q.m.pipedream.net?close='+message, {mode: 'no-cors'});
